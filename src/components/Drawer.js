@@ -4,15 +4,16 @@ function Drawer({ onClose, onRemove, items = [] }) {
             <div className="drawer">
                 <h2 className="mb-30 d-flex justify-between">
                     Корзина
-                    <img onClick={onClose} className="removeBtn cu-p" src="/img/btn-remove.svg" alt="Remove" />
+                    <img onClick={onClose} className="removeBtn cu-p" src={process.env.PUBLIC_URL + "/img/btn-remove.svg"} alt="Remove" />
                 </h2>
                 {items.length > 0 ? (
                     <div>
                         <div className="items">
                             {items.map((obj) => (
                                 <div className="cartItem d-flex align-center mb-20" key={obj.id}>
+                                    {console.log()}
                                     <div
-                                        style={{ backgroundImage: `url(${obj.imageUrl})` }}
+                                        style={{ backgroundImage:  `url(${process.env.PUBLIC_URL + obj.imageUrl})` }}
                                         className="cartItemImg"
                                     />
                                     <div className="mr-20 flex">
@@ -22,7 +23,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
                                     <img
                                         onClick={() => onRemove(obj.id)}
                                         className="removeBtn"
-                                        src="/img/btn-remove.svg"
+                                        src={process.env.PUBLIC_URL + "/img/btn-remove.svg"}
                                         alt="Remove"
                                     />
                                 </div>
@@ -44,7 +45,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
                             </ul>
                             <button className="greenButton">
                                 Оформить заказ
-                                <img src="/img/arrow.svg" alt="Arrow" />
+                                <img src={process.env.PUBLIC_URL + "/img/arrow.svg"} alt="Arrow" />
                             </button>
                         </div>
                     </div>
