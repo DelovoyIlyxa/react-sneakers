@@ -102,7 +102,9 @@ function App() {
           path="/favorites"
           exact
           element={
-            <Favorites items={favorites}
+            <Favorites
+              items={favorites}
+              cartItems={cartItems}
               onAddToFavorite={onAddToFavorite}
               onAddToCart={onAddToCart}
             />

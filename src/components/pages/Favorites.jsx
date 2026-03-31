@@ -2,6 +2,7 @@ import Card from '../Card';
 
 function Favorites({
     items,
+    cartItems,
     onAddToFavorite,
     onAddToCart
 }) {
