@@ -16,31 +16,40 @@ function App() {
   const [cartOpened, setCartOpened] = React.useState(false);
 
   React.useEffect(() => {
-    // fetch(Config.API_URL1 + '/items')
-    //   .then((res) => {
-    //     return res.json()
-    //   })
-    //   .then((json) => {
-    //     setItems(json);
-    //   });
+    /* fetch(Config.API_URL1 + '/items')
+      .then((res) => {
+        return res.json()
+      })
+      .then((json) => {
+        setItems(json);
+       }); */
 
-    axios.get(`${Config.API_URL1}/items`).then((res) => {
-      setItems(res.data);
-    });
+    async function fetchData() {
+      const cartResponse = await axios.get(`${Config.API_URL1}/cart`);
+      const favoriteResponse = await axios.get(`${Config.API_URL2}/favorites`);
+      const itemsResponse = await axios.get(`${Config.API_URL1}/items`);
 
-    axios.get(`${Config.API_URL1}/cart`).then((res) => {
-      setCartItems(res.data);
-    });
-
-    axios.get(`${Config.API_URL2}/favorites`).then((res) => {
-      setFavorites(res.data);
-    });
+      setCartItems(cartResponse.data);
+      setFavorites(favoriteResponse.data);
+      setItems(itemsResponse.data);
+    }
+    fetchData();
   }, []);
 
-  const onAddToCart = (obj) => {
-    axios.post(`${Config.API_URL1}/cart`, obj).then((res) => {
-      setCartItems((prev) => [...prev, res.data]);
-    });
+  const onAddToCart = async (obj) => {
+    const findItem = cartItems.find(item => Number(item.parentId) === Number(obj.id));
+
+    if (findItem) {
+      await axios.delete(`${Config.API_URL1}/cart/${findItem.id}`);
+      setCartItems(prev => prev.filter(item => item.id !== findItem.id));
+    } else {
+      const { data } = await axios.post(`${Config.API_URL1}/cart`, {
+        ...obj,
+        parentId: obj.id
+      });
+
+      setCartItems(prev => [...prev, data]);
+    }
   };
 
   const onRemoveItem = (id) => {
@@ -80,6 +89,8 @@ function App() {
           element={
             <Home
               items={items}
+              cartItems={cartItems}
+              favorites={favorites}
               searchValue={searchValue}
               setSearchValue={setSearchValue}
               onChangeSearchInput={onChangeSearchInput}

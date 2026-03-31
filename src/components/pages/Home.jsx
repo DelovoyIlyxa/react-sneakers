@@ -2,6 +2,8 @@ import Card from '../Card';
 
 function Home({
     items,
+    cartItems,
+    favorites,
     searchValue,
     setSearchValue,
     onChangeSearchInput,
@@ -29,6 +31,8 @@ function Home({
                             key={index}
                             onFavourite={(obj) => { onAddToFavorite(obj) }}
                             onPlus={(obj) => { onAddToCart(obj) }}
+                            added={cartItems.some(obj => obj.title === item.title)}
+                            favorited={favorites.some(obj => obj.title == item.title)}
                             {...item}
                         />)
                 }
