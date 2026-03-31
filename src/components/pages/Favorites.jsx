@@ -18,6 +18,7 @@ function Favorites({
                             onFavourite={(obj) => { onAddToFavorite(obj) }}
                             onPlus={(obj) => { onAddToCart(obj) }}
                             favorited={true}
+                            added={cartItems.some(obj => obj.title === item.title)}
                             {...item}
                         />)
                 }
